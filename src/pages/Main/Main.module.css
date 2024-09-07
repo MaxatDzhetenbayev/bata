@@ -1,0 +1,93 @@
+.content {
+  width: 100vw;
+  height: 100vh;
+
+  overflow: hidden;
+  position: relative;
+
+  background-image: url("/images/back.webp");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.header {
+  padding: 20px 20px 0px;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.wrapper {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.button_group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.btn {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+
+  background: #fff;
+  box-shadow: 0px 4px rgba(0, 0, 0, 0.3);
+  border: none;
+  border-radius: 15px;
+
+  text-align: center;
+  padding: 20px;
+  font-size: clamp(20px, 1.4vw, 60px);
+
+  color: rgb(92, 71, 255);
+  font-weight: 600;
+  font-family: monospace;
+  cursor: pointer;
+}
+
+.btn::before {
+  content: "";
+
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 0;
+
+  width: 100%;
+  height: 100%;
+
+  border-radius: 15px;
+
+  z-index: -1;
+  opacity: 0;
+
+  background: black;
+}
+
+.view_hands {
+  position: absolute;
+  left: calc(50% - 400px / 2);
+  top: calc(50% - 400px / 2);
+  display: block;
+  width: 400px;
+  height: 400px;
+
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.view_hands img {
+  width: 100%;
+  height: 100%;
+}

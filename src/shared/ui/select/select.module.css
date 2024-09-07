@@ -1,0 +1,18 @@
+.select {
+  border: none;
+  outline: none;
+  background-color: rgb(92, 71, 255);
+  border-radius: 5px;
+  margin: 0;
+  display: block;
+  width: 120px;
+  padding: 12px 55px 15px 15px;
+  font-size: 14px;
+  color: #fff;
+}
+
+.option {
+  color: #fff;
+  padding: 20px;
+  border: none;
+}

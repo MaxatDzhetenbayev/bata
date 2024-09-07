@@ -1,0 +1,1 @@
+export {TextPage} from './Text.page'

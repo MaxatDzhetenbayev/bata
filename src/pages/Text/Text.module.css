@@ -1,0 +1,19 @@
+.content {
+  width: 100vw;
+  height: 100vh;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #000;
+  padding: 20px;
+}
+.wrapper {
+  max-width: 900px;
+}
+
+.text {
+  font-size: clamp(20px, 1.8vw, 80px);
+  text-align: justify;
+  color: white;
+}
