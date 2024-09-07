@@ -62,9 +62,9 @@ export const MainPage = () => {
             variants={buttonVariants}
             transition={{ duration: 0.5, delay: isActive ? 0 : 0.5 }}
           >
-            Қазақ тіліндегі бата
+            Бата
           </motion.button>
-          <motion.button
+          {/* <motion.button
             className={style.btn}
             onClick={() => playApp("en")}
             animate={isActive ? "hidden" : "view"}
@@ -72,7 +72,7 @@ export const MainPage = () => {
             transition={{ duration: 0.5, delay: isActive ? 0 : 0.5 }}
           >
             bata in English
-          </motion.button>
+          </motion.button> */}
         </section>
         <section>
           <motion.img
