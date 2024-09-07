@@ -3,9 +3,10 @@ import style from "./Main.module.css";
 import { motion } from "framer-motion";
 import { playRandomAudio } from "../../shared/lib";
 import { useTranslation } from "react-i18next";
+
 const buttonVariants = {
   view: { opacity: 1, y: 0 },
-  hidden: { opacity: 0, y: 100 },
+  hidden: { opacity: 0, y: -100 },
 };
 
 const getHandsVariant = (hand) => {
@@ -23,9 +24,40 @@ const getHandsVariant = (hand) => {
   };
 };
 
+const Hands = ({ isActive, onHidden }) => {
+  return (
+    <section>
+      <motion.img
+        initial="hidden"
+        animate={isActive ? "active" : "hidden"}
+        variants={getHandsVariant("left")}
+        transition={{ duration: 0.5, delay: isActive ? 0.5 : 0 }}
+        src="/images/left-hand.png"
+        alt=""
+        onAnimationComplete={() => {
+          if (!isActive) onHidden();
+        }}
+      />
+      <motion.img
+        initial="hidden"
+        animate={isActive ? "active" : "hidden"}
+        variants={getHandsVariant("right")}
+        transition={{ duration: 0.5, delay: isActive ? 0.5 : 0 }}
+        src="/images/right-hand.png"
+        alt=""
+        onAnimationComplete={() => {
+          if (!isActive) onHidden();
+        }}
+      />
+    </section>
+  );
+};
+
 export const MainPage = () => {
   const [audioNumber, setAudioNumber] = useState(1);
   const [isActive, setIsActive] = useState(false);
+  const [showHands, setShowHands] = useState(false);
+  const [hideHands, setHideHands] = useState(false);
   const audioRef = useRef(null);
   const { i18n } = useTranslation();
 
@@ -45,10 +77,16 @@ export const MainPage = () => {
   const playApp = (lang) => {
     handleChange(lang);
     playRandomAudio(lang, setIsActive, setAudioNumber);
+    setShowHands(true); // Показать Hands
+    setHideHands(false); // Убедиться, что Hands не скрыт
   };
 
   useEffect(() => {
     window.localStorage.setItem("isActive", isActive);
+    if (!isActive) {
+      // Если isActive становится false, скрыть Hands
+      setHideHands(true);
+    }
   }, [isActive]);
 
   return (
@@ -57,55 +95,28 @@ export const MainPage = () => {
         <section className={style.button_group}>
           <motion.button
             className={style.btn}
-            onClick={() => playApp("kz")}
+            onClick={() => {
+              playApp("kz");
+            }}
             animate={isActive ? "hidden" : "view"}
             variants={buttonVariants}
             transition={{ duration: 0.5, delay: isActive ? 0 : 0.5 }}
+            onAnimationComplete={() => {
+              if (isActive) setShowHands(true);
+            }}
           >
             Бата
           </motion.button>
-          {/* <motion.button
-            className={style.btn}
-            onClick={() => playApp("en")}
-            animate={isActive ? "hidden" : "view"}
-            variants={buttonVariants}
-            transition={{ duration: 0.5, delay: isActive ? 0 : 0.5 }}
-          >
-            bata in English
-          </motion.button> */}
         </section>
-        <section>
-          <motion.img
-            initial="hidden"
-            animate={isActive ? "active" : "hidden"}
-            variants={getHandsVariant("left")}
-            transition={{ duration: 0.5, delay: isActive ? 0.5 : 0 }}
-            src="/images/left-hand.png"
-            alt=""
+        {/* Рендерить Hands только если showHands true и hideHands false */}
+        {showHands && !hideHands && (
+          <Hands
+            isActive={isActive}
+            onHidden={() => {
+              setHideHands(true); // Полностью убрать Hands после анимации скрытия
+            }}
           />
-          <motion.img
-            initial="hidden"
-            animate={isActive ? "active" : "hidden"}
-            variants={getHandsVariant("right")}
-            transition={{ duration: 0.5, delay: isActive ? 0.5 : 0 }}
-            src="/images/right-hand.png"
-            alt=""
-          />
-        </section>
-        {/* <AnimatePresence>
-          {isActive && (
-            <motion.button
-              initial="hidden"
-              animate="view"
-              exit="hidden"
-              variants={imageVariants}
-              transition={{ duration: 0.5, delay: isActive ? 0.5 : 0 }}
-              className={style.view_hands}
-            >
-              <motion.img key="image" src="/images/hands.png" />
-            </motion.button>
-          )}
-        </AnimatePresence> */}
+        )}
         <audio ref={audioRef}>
           <source src={`/audio/${audioNumber}.mpeg`} type="audio/mpeg" />
         </audio>
