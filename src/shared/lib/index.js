@@ -57,13 +57,19 @@ export const playRandomAudio = (lang, setIsActive, setAudioNumber) => {
   setIsActive(true);
 
   const randomAudioNumber = getRandomNumber();
-  setAudioNumber(randomAudioNumber);
 
-  window.localStorage.setItem("audioNumber", randomAudioNumber);
-  window.localStorage.setItem("text", bataTexts[lang][randomAudioNumber]);
-  getAudioDuration(randomAudioNumber, lang).then((duration) => {
-    setTimeout(() => {
-      setIsActive(false);
-    }, duration * 1000);
-  });
+  setAudioNumber(null);
+
+  setTimeout(() => {
+    setAudioNumber(randomAudioNumber);
+
+    window.localStorage.setItem("audioNumber", randomAudioNumber);
+    window.localStorage.setItem("text", bataTexts[lang][randomAudioNumber]);
+
+    getAudioDuration(randomAudioNumber, lang).then((duration) => {
+      setTimeout(() => {
+        setIsActive(false);
+      }, duration * 1000);
+    });
+  }, 0);
 };
