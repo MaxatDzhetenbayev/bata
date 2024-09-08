@@ -2,7 +2,6 @@ import React, { useEffect, useState, useRef } from "react";
 import style from "./Main.module.css";
 import { motion } from "framer-motion";
 import { playRandomAudio } from "../../shared/lib";
-import { useTranslation } from "react-i18next";
 
 const buttonVariants = {
   view: { opacity: 1, y: 0 },
@@ -59,11 +58,7 @@ export const MainPage = () => {
   const [showHands, setShowHands] = useState(false);
   const [hideHands, setHideHands] = useState(false);
   const audioRef = useRef(null);
-  const { i18n } = useTranslation();
-
-  const handleChange = (lang) => {
-    i18n.changeLanguage(lang);
-  };
+  const [lang, setLang] = useState("kz");
 
   useEffect(() => {
     if (audioRef.current) {
@@ -75,22 +70,25 @@ export const MainPage = () => {
   }, [audioNumber]);
 
   const playApp = (lang) => {
-    handleChange(lang);
     playRandomAudio(lang, setIsActive, setAudioNumber);
-    setShowHands(true); // Показать Hands
-    setHideHands(false); // Убедиться, что Hands не скрыт
+    setShowHands(true);
+    setHideHands(false);
+    setLang(lang);
   };
 
   useEffect(() => {
     window.localStorage.setItem("isActive", isActive);
     if (!isActive) {
-      // Если isActive становится false, скрыть Hands
       setHideHands(true);
     }
   }, [isActive]);
 
   return (
     <section className={style.content}>
+      <video autoPlay muted loop className={style.backgroundVideo}>
+        <source src="/video/background.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
       <section className={style.wrapper}>
         <section className={style.button_group}>
           <motion.button
@@ -107,6 +105,20 @@ export const MainPage = () => {
           >
             Бата
           </motion.button>
+          <motion.button
+            className={style.btn}
+            onClick={() => {
+              playApp("en");
+            }}
+            animate={isActive ? "hidden" : "view"}
+            variants={buttonVariants}
+            transition={{ duration: 0.5, delay: isActive ? 0 : 0.5 }}
+            onAnimationComplete={() => {
+              if (isActive) setShowHands(true);
+            }}
+          >
+            Bata
+          </motion.button>
         </section>
         {/* Рендерить Hands только если showHands true и hideHands false */}
         {showHands && !hideHands && (
@@ -118,7 +130,7 @@ export const MainPage = () => {
           />
         )}
         <audio ref={audioRef}>
-          <source src={`/audio/${audioNumber}.mpeg`} type="audio/mpeg" />
+          <source src={`/audio/${lang}/${audioNumber}.mp3`} type="audio/mpeg" />
         </audio>
       </section>
     </section>

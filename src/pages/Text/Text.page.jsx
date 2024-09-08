@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import style from "./Text.module.css";
 
@@ -9,8 +8,6 @@ const textVariants = {
 };
 
 export const TextPage = () => {
-  const { t } = useTranslation();
-
   const [audioNumber, setAudioNumber] = useState(null);
   const [isActive, setIsActive] = useState(false);
   const [text, setText] = useState("");

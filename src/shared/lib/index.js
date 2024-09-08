@@ -2,9 +2,9 @@ export const getRandomNumber = () => {
   return Math.floor(Math.random() * 15) + 1;
 };
 
-export const getAudioDuration = (audioNumber) => {
+export const getAudioDuration = (audioNumber, lang) => {
   return new Promise((resolve, reject) => {
-    const audio = new Audio(`/audio/${audioNumber}.mpeg`);
+    const audio = new Audio(`/audio/${lang}/${audioNumber}.mp3`);
 
     audio.addEventListener("loadedmetadata", () => {
       resolve(audio.duration);
@@ -35,21 +35,21 @@ const bataTexts = {
     15: "Адамның адамшылығы істі бастағандығынан білінеді, қалайша бітіргендігінен емес.",
   },
   en: {
-    1: "...He commands all people not to be wicked, but to be just, and shows them the way.",
-    2: "From apprenticeship comes all forms of piety. Therefore, never abandon justice and mercy. If you do, you will abandon both faith and humanity.",
-    3: "Even if you are alive, but your soul is dead, you won't be able to grasp wisdom.",
-    4: "First, rely on God, then trust in your own strength and work hard. If you work diligently, even the barren land will not leave you empty-handed.",
-    5: "Fear God, be ashamed before people; if you want your child to become a person — educate them, spare no expense!",
-    6: "Help people according to their knowledge; aiding the undeserving corrupts the person.",
-    7: "To become a guardian for the Kazakhs, we too must become a nation, learn, and join the ranks of other peoples.",
-    8: "Knowledge and wisdom are contained in a vessel called character. Do not let this character be destroyed!",
-    9: "If you want to be among wise people, every day, or at least once a week, or at the very least once a month, take account of yourself!",
-    10: "If you have a desire to love truth and strive for knowledge, direct your attention, worthy of humanity, towards the truth.",
-    11: "If you want your work to progress, find a way.",
-    12: "Share your thoughts with those who have no friends; respect those who have many; beware of those who know no sorrow; be close to those who suffer.",
-    13: "We cannot create knowledge ourselves, but we can perceive and comprehend things that already exist, seeing them with our eyes and understanding them with our minds.",
-    14: "If you have grasped the truth through perseverance and effort, hold on to it, do not let go even at the brink of death!",
-    15: "A person's humanity is evident in how they start a task, not in how they finish it.",
+    1: "Allah exhorts everybody to be virtuous and live righteously.",
+    2: "The desire to do good is born of the ability to be content with little. Do not lose your sense of justice and never tire of doing good. There can be neither faith nor humanity, loving kindness, without justice.",
+    3: "If your body is alive but your soul is dead, words of reason will not reach you, and you will be incapable of earning your living by honest work.",
+    4: "Put your faith in the Lord, and trust in your own powers and abilities. Even the hardest earth will yield good crops to honest and selfless toil.",
+    5: "If you honor God and have any shame, if you want your son to be a real man, send him to school! Don't begrudge the expense!",
+    6: "Render good to a wise man; a fool will only be spoilt by it. ",
+    7: "We ought to educate ourselves, learn what other people know so as to become their equals and be a shield and a pillar for our people.",
+    8: "human character is a vessel containing intelligence and knowledge. Develop your character therefore!",
+    9: "If you wish to be counted among the intelligent, then ask yourself once a day, once a week, or at least once a month: 'How do I live?'",
+    10: "If you are possessed by love of truth and a desire for learning, listen attentively and be diligent.",
+    11: "If you want your labors to be successful, start the job in hand wisely.",
+    12: "Be frank with those without friends; keep on good terms with those who have many. Beware of the careless man; be a shield to the destitute.",
+    13: "Unable to invent science and learning, we can only behold and perceive the created world and understand its harmony by our reason.",
+    14: "if you have succeeded in your pursuit of a truth, do not turn back from it even on pain of death.",
+    15: "Judge a man's qualities by the intentions of his action and not by its outcome.",
   },
 };
 
@@ -61,8 +61,7 @@ export const playRandomAudio = (lang, setIsActive, setAudioNumber) => {
 
   window.localStorage.setItem("audioNumber", randomAudioNumber);
   window.localStorage.setItem("text", bataTexts[lang][randomAudioNumber]);
-
-  getAudioDuration(randomAudioNumber).then((duration) => {
+  getAudioDuration(randomAudioNumber, lang).then((duration) => {
     setTimeout(() => {
       setIsActive(false);
     }, duration * 1000);
